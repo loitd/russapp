@@ -4,8 +4,15 @@ version = "0.1.0"
 authors = ["Tran Duc Loi <loitranduc@gmail.com>"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+#rustc-link-search = ["./src/bin"]
+#rustc-link-lib = ["hallo"]
 
+# The available options are bin, lib, rlib, dylib, cdylib, staticlib, and proc-macro
+[[example]]
+name = "hallo"
+crate-type = ["rlib"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 # https://crates.io/crates/oracle
 
 
@@ -16,3 +23,6 @@ threadpool = "*"
 mysql = "*"
 #diesel = { version = "1.4.4", features = ["mysql"] }
 dotenv = "0.15.0"
+telegram-bot = "0.8.0"
+
+[dev-dependencies]
