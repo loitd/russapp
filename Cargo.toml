@@ -12,6 +12,10 @@ edition = "2018"
 name = "hallo"
 crate-type = ["rlib"]
 
+[[example]]
+name = "serve"
+crate-type = ["bin"]
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 # https://crates.io/crates/oracle
 
@@ -19,10 +23,18 @@ crate-type = ["rlib"]
 [dependencies]
 log = "0.4.11"
 simplelog = "^0.7.6"
-threadpool = "*"
-mysql = "*"
+env_logger = "*"
+#threadpool = "*"
+#mysql = "*"
 #diesel = { version = "1.4.4", features = ["mysql"] }
-dotenv = "0.15.0"
-telegram-bot = "0.8.0"
+#dotenv = "0.15.0"
+#telegram-bot = "0.8.0"
+
+# -------------------actix--------------------------
+actix-web = "3"
+tera = "1"
+actix-files = "0.3"
+actix-session = "0.4"
+actix-utils = "2"
 
 [dev-dependencies]

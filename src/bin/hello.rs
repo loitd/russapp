@@ -17,7 +17,24 @@ pub fn mul(x: i32, y: &str) -> i32 {
     x * _y
 }
 
+// Linux only
+#[cfg(target_os = "linux")]
+fn linux_only() {
+    println!("On linux only");
+}
+
+// check linux inside
+fn checky_os(){
+    if cfg!(target_os = "linux") {
+        println!("Yay, you are on linux");
+    } else if cfg!(target_os = "windows") {
+        println!("Yay, you are on windows");
+    } else {
+        println!("Yay, os not supported!");
+    }
+}
+
 fn main(){
     f_sayhello2();
-    // f_sayhallo2();
+    checky_os();
 }
