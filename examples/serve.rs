@@ -1,23 +1,41 @@
 // A serve example to run actix web based on: https://github.com/actix/examples/blob/master/basics/src/main.rs
+// Form processing based on: https://github.com/actix/examples/blob/master/form/src/main.rs
 // To run: cargo run --example serve
 // To build release: cargo build --example serve --release
 // Copy the templates & static folder with the exe bin file for the web to be runnable.
 // Added tera as template & templates dir, logger, static files, 
+// Added form & serde with App state & configure
 use actix_web::{web, App, HttpRequest, HttpServer, Responder, HttpResponse, error, get, guard, middleware, Result};
 use tera::{Tera, Context};
 use actix_files as fs;
 use actix_session::{CookieSession, Session};
 use actix_web::http::{header, Method, StatusCode};
+use serde::{Deserialize, Serialize};
 
 // create a data struct to save all the data for the App Context
 struct AppData {
     tmpl: Tera
 }
 
+struct AppState {
+    foo: String
+}
+
+#[derive(Serialize, Deserialize)]
+pub struct MyParams {
+    name: String,
+}
+
 // Processing favicon
 #[get("/favicon.ico")]
 async fn favicon() -> Result<fs::NamedFile>{
     Ok( fs::NamedFile::open( "static/favicon.ico" )? )
+}
+
+// Processing bulma css
+#[get("/static/css/bulma.min.css")]
+async fn bulmacss() -> Result<fs::NamedFile>{
+    Ok( fs::NamedFile::open( "static/css/bulma.min.css" )? )
 }
 
 // handle 404
@@ -42,6 +60,7 @@ async fn render_tmpl(data: web::Data<AppData>, req:HttpRequest) -> impl Responde
     HttpResponse::Ok().body(rendered)
 }
 
+// Start the main web app processing
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     // set env and log
@@ -65,6 +84,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Logger::default())
             // register favicon
             .service(favicon)
+            .service(bulmacss)
             // register default service
             .default_service(
                 // 404
@@ -86,9 +106,41 @@ async fn main() -> std::io::Result<()> {
                 web::resource("/tmpl/{name}")
                     .route(web::get().to(render_tmpl))
             )
+            // Use app_config as another way to handle URLs with a fn outside the main. If you place configure before normal inline route, only configure accepted.
+            // -> must put configure at the end of the HTTP
+            .configure(app_config)
     })
     .bind("127.0.0.1:8081")?
     // .workers(4);
     .run()
     .await
+}
+
+fn app_config(config: &mut web::ServiceConfig){
+    config.service(
+        web::scope("")
+            .data(AppState{
+                foo: "bar".to_string(),
+            })
+            .service(
+                web::resource("/post1")
+                    .route(web::get().to(render_forms))
+                    .route(web::post().to(handle_post1))
+            ),
+    );
+}
+
+async fn render_forms(data: web::Data<AppData>, req:HttpRequest) -> impl Responder {
+    // let name = req.match_info().get("name").unwrap();
+    let mut ctx = Context::new();
+    // ctx.insert("name", name);
+    let rendered = data.tmpl.render("form.html", &ctx).unwrap();
+    HttpResponse::Ok().body(rendered)
+}
+
+async fn handle_post1(
+    state: web::Data<AppState>,
+    params: web::Form<MyParams> 
+) -> Result<HttpResponse> {
+    Ok(HttpResponse::Ok().content_type("text/plain").body(format!("Yourname is {}. Appstate.foo is {}", params.name, state.foo)))
 }
