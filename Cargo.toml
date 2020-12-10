@@ -24,11 +24,11 @@ crate-type = ["bin"]
 log = "0.4.11"
 simplelog = "^0.7.6"
 env_logger = "*"
-#threadpool = "*"
-#mysql = "*"
-#diesel = { version = "1.4.4", features = ["mysql"] }
-#dotenv = "0.15.0"
-#telegram-bot = "0.8.0"
+threadpool = "*"
+mysql = "*"
+diesel = { version = "1.4.4", features = ["mysql"] }
+dotenv = "0.15.0"
+telegram-bot = "0.8.0"
 
 # -------------------actix--------------------------
 actix-web = "3"
@@ -37,6 +37,8 @@ actix-files = "0.3"
 actix-session = "0.4"
 actix-utils = "2"
 serde = { version = "1", features = ["derive"] }
+# --------------------wasm--------------------------
+wasm-bindgen = "0.2.63"
 
 [dev-dependencies]
 actix-rt = "1"

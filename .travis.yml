@@ -4,32 +4,41 @@ sudo: false
 
 INSTALL_NODE_VIA_NVM: &INSTALL_NODE_VIA_NVM
   |
-    rustup target add wasm32-unknown-unknown
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
     source ~/.nvm/nvm.sh
     nvm install 10
 
 cache: cargo
-script:
-  - cargo build --verbose --workspace
-  - cargo test --verbose --workspace
 
 matrix:
   include:
   - name: Tests
-    env: RUST_BACKTRACE=1
+    env: RUST_BACKTRACE=1 #to make Rust print out a stacktrace on a panic. This is particularly useful combined with panic!(), unreachable!() and unimplemented!() which you can use to structure failure modes in your programs
     rust: stable
     addons:
       firefox: latest
       chrome: stable
     before_script:
-      # Install wasm-pack
-      - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s -- -f
+      # Install wasm-pack. wasm-pack's target_os is wasm32, socket2, net2 can NOT be built on wasm32
+      # - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s -- -f
+      # Install cargo-update
+      - (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update)
+      # Install cargo-generate
+      - (test -x $HOME/.cargo/bin/cargo-generate || cargo install --vers "^0.2" cargo-generate)
+      # Update cargo
+      - cargo install-update -a
+      # Set the target
+      # - rustup target add wasm32-unknown-unknown
     install:
-      # Do installings
+      # Do installings node v10.10
       - *INSTALL_NODE_VIA_NVM
     script:
-      - cargo test --all --target wasm32-unknown-unknown
+      # Analyze the project to see it has any errors, without building it
+      - cargo check
+      # - cargo check --target wasm32-unknown-unknown
+      # Build the project & Run tests
+      - cargo test --all
+      # - cargo test --all --target wasm32-unknown-unknown
 
 notifications:
   email:
