@@ -15,18 +15,19 @@ matrix:
   - name: Tests
     env: RUST_BACKTRACE=1 #to make Rust print out a stacktrace on a panic. This is particularly useful combined with panic!(), unreachable!() and unimplemented!() which you can use to structure failure modes in your programs
     rust: stable
-    addons:
-      firefox: latest
-      chrome: stable
+    # Additional addons
+    # addons:
+    #   firefox: latest
+    #   chrome: stable
     before_script:
       # Install wasm-pack. wasm-pack's target_os is wasm32, socket2, net2 can NOT be built on wasm32
       # - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s -- -f
       # Install cargo-update
-      - (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update)
+      # - (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update)
       # Install cargo-generate
-      - (test -x $HOME/.cargo/bin/cargo-generate || cargo install --vers "^0.2" cargo-generate)
+      # - (test -x $HOME/.cargo/bin/cargo-generate || cargo install --vers "^0.2" cargo-generate)
       # Update cargo
-      - cargo install-update -a
+      # - cargo install-update -a
       # Set the target
       # - rustup target add wasm32-unknown-unknown
     install:
@@ -37,6 +38,7 @@ matrix:
       - cargo check
       # - cargo check --target wasm32-unknown-unknown
       # Build the project & Run tests
+      - cargo test --doc
       - cargo test --all
       # - cargo test --all --target wasm32-unknown-unknown
 

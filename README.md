@@ -7,4 +7,4 @@ My Simplest Rust Application built and run from Docker
 Some features:
 - Follow [the Rust official project layout guide](https://doc.rust-lang.org/stable/cargo/guide/project-layout.html).  
 - Actix web with tera and UIKit
-- Travis-CI integrated
+- Travis-CI integrated + tests added with document tests

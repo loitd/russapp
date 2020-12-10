@@ -25,11 +25,11 @@ log = "0.4.11"
 simplelog = "^0.7.6"
 env_logger = "*"
 threadpool = "*"
-mysql = "*"
-diesel = { version = "1.4.4", features = ["mysql"] }
 dotenv = "0.15.0"
 telegram-bot = "0.8.0"
-
+# -------------------Databases----------------------
+mysql = "*"
+# diesel = { version = "1.4.4", features = ["mysql"] }
 # -------------------actix--------------------------
 actix-web = "3"
 tera = "1"
