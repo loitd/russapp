@@ -6,24 +6,94 @@
         <title>Actix Web</title>
     </head>
     <body>
-        <section class="section">
-            <div class="container">
+        <!-- Header -->
+        <!-- <section class="uk-section uk-section-default"> -->
+            <div class="uk-container">
+                <!-- NavBar -->
+                <nav class="uk-navbar-container" uk-navbar>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav">
+                            <li><a href="#offcanvas-slide" class="uk-icon-link" uk-icon="menu" uk-toggle></a></li>
+                        </ul>
+                    </div>
+                </nav>
+                <!-- Nav -->
+                <div id="offcanvas-slide" uk-offcanvas="overlay: true">
+                    <div class="uk-offcanvas-bar">
+                        <ul class="uk-nav uk-nav-default">
+                            <li class="uk-active"><a href="#"><span class="uk-margin-small-right" uk-icon="icon: check"></span> Active</a></li>
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: thumbnails"></span> Item</a></li>
+                            <li class="uk-nav-header">Header</li>
+                            <li><a href="#"><span class="uk-margin-small-right" uk-icon="icon: trash"></span> Recycle</a></li>
+                            <li class="uk-nav-divider"></li>
+                            <li><a href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <!-- </section> -->
+            
+            
+        <!-- Body -->
+        <section class="uk-section uk-section-default" id="content">
+            <div class="uk-container">
+                
+                <ul class="uk-margin uk-grid-small uk-child-width-1-2 uk-child-width-1-4@s" uk-sortable="handle: .uk-card" uk-grid>
+                    <li><div class="uk-card uk-card-default uk-card-body uk-text-center">Item 1</div></li>
+                    <li><div class="uk-card uk-card-default uk-card-body uk-text-center">Item 2</div></li>
+                    <li><div class="uk-card uk-card-default uk-card-body uk-text-center">Item 3</div></li>
+                    <li><div class="uk-card uk-card-default uk-card-body uk-text-center">Item 3</div></li>
+                    <li><div class="uk-card uk-card-default uk-card-body uk-text-center">Item 3</div></li>
+                    <li><div class="uk-card uk-card-default uk-card-body uk-text-center">Item 3</div></li>
+                    <li><div class="uk-card uk-card-default uk-card-body uk-text-center">Item 3</div></li>
+                    <li><div class="uk-card uk-card-default uk-card-body uk-text-center">Item 3</div></li>
+                    <li><div class="uk-card uk-card-default uk-card-body uk-text-center">Item 3</div></li>
+                    <li><div class="uk-card uk-card-default uk-card-body uk-text-center">Item 3</div></li>
+                </ul>
+                
                 {% block content %}
                 {% endblock content %}
+
             </div>
         </section>
+           
+        
 
         <!-- Footer -->
-        <footer class="footer">
-            <div class="content has-text-centered">
-                <p>
-                <strong>This site</strong> by <a href="https://github.com/loitd">Tran Duc Loi</a> using Rust Actix Web, Bulma, Tera and much more. The website content
-                is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
-                </p>
+        <footer class="uk-section uk-section-secondary">
+            <div class="uk-container">
+                <!-- Company intro -->
+                <div class="uk-grid uk-grid-large">
+                    <div class="uk-width-1-2@m">
+                        <h3>Why us</h3>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto fugit eveniet accusamus? Doloribus libero tempora obcaecati vero. Commodi fuga quidem magni reprehenderit qui architecto molestias soluta iste, obcaecati praesentium. Explicabo.</p>
+                    </div>
+                    <div class="uk-width-1-4@m">
+                        <h3>What</h3>
+                        <p>We responsive</p>
+                    </div>
+                    <div class="uk-width-1-4@m">
+                        <h3>How</h3>
+                        <p>We responsive</p>
+                    </div>
+                </div>
+
+                <!-- Copyright -->
+                <div class="uk-text-center uk-padding uk-padding-remove-horizontal">
+                    <p>Made with <span class="uk-text-danger" uk-icon="icon: heart"></span> using <a href="https://actix.rs/">Rust Actix</a> & <a href="https://getuikit.com/">UIKit</a></p>
+                </div>
             </div>
         </footer>
-
+        
         <!-- Trying to import bulma -->
-        <link rel="stylesheet" href="/static/css/bulma.min.css">
+        <link rel="stylesheet" href="/static/css/uikit.min.css">
+        <script src="/static/js/uikit.min.js"></script>
+        <script src="/static/js/uikit-icons.min.js"></script>
+
+
+        <!-- Javascripts -->
+        <script>
+            
+        </script>
     </body>
 </html>

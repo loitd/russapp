@@ -26,23 +26,6 @@ pub struct MyParams {
     name: String,
 }
 
-// Processing favicon
-#[get("/favicon.ico")]
-async fn favicon() -> Result<fs::NamedFile>{
-    Ok( fs::NamedFile::open( "static/favicon.ico" )? )
-}
-
-// Processing bulma css
-#[get("/static/css/bulma.min.css")]
-async fn bulmacss() -> Result<fs::NamedFile>{
-    Ok( fs::NamedFile::open( "static/css/bulma.min.css" )? )
-}
-
-// handle 404
-async fn p404() -> Result<fs::NamedFile> {
-    Ok(fs::NamedFile::open("templates/404.html")?.set_status_code(StatusCode::NOT_FOUND))
-}
-
 async fn greet(req: HttpRequest) -> impl Responder {
     let name = req.match_info().get("name").unwrap_or("World");
     format!("Hello {}!", &name)
@@ -84,7 +67,10 @@ async fn main() -> std::io::Result<()> {
             .wrap(middleware::Logger::default())
             // register favicon
             .service(favicon)
-            .service(bulmacss)
+            .service(logo)
+            .service(uikitcss)
+            .service(uikitjs1)
+            .service(uikitjs2)
             // register default service
             .default_service(
                 // 404
@@ -144,3 +130,39 @@ async fn handle_post1(
 ) -> Result<HttpResponse> {
     Ok(HttpResponse::Ok().content_type("text/plain").body(format!("Yourname is {}. Appstate.foo is {}", params.name, state.foo)))
 }
+
+// Processing favicon
+#[get("/favicon.ico")]
+async fn favicon() -> Result<fs::NamedFile>{
+    Ok( fs::NamedFile::open( "static/favicon.ico" )? )
+}
+
+// Processing logo
+#[get("/logo.png")]
+async fn logo() -> Result<fs::NamedFile>{
+    Ok( fs::NamedFile::open( "static/logo.png" )? )
+}
+
+// Processing uikit css
+#[get("/static/css/uikit.min.css")]
+async fn uikitcss() -> Result<fs::NamedFile>{
+    Ok( fs::NamedFile::open( "static/css/uikit.min.css" )? )
+}
+
+// Processing uikit js1
+#[get("/static/js/uikit.min.js")]
+async fn uikitjs1() -> Result<fs::NamedFile>{
+    Ok( fs::NamedFile::open( "static/js/uikit.min.js" )? )
+}
+
+// Processing uikit js2
+#[get("/static/js/uikit-icons.min.js")]
+async fn uikitjs2() -> Result<fs::NamedFile>{
+    Ok( fs::NamedFile::open( "static/js/uikit-icons.min.js" )? )
+}
+
+// handle 404
+async fn p404() -> Result<fs::NamedFile> {
+    Ok(fs::NamedFile::open("templates/404.html")?.set_status_code(StatusCode::NOT_FOUND))
+}
+
