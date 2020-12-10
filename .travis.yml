@@ -1,0 +1,36 @@
+language: rust
+rust: stable
+sudo: false
+
+INSTALL_NODE_VIA_NVM: &INSTALL_NODE_VIA_NVM
+  |
+    rustup target add wasm32-unknown-unknown
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+    source ~/.nvm/nvm.sh
+    nvm install 10
+
+cache: cargo
+script:
+  - cargo build --verbose --workspace
+  - cargo test --verbose --workspace
+
+matrix:
+  include:
+  - name: Tests
+    env: RUST_BACKTRACE=1
+    rust: stable
+    addons:
+      firefox: latest
+      chrome: stable
+    before_script:
+      # Install wasm-pack
+      - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s -- -f
+    install:
+      # Do installings
+      - *INSTALL_NODE_VIA_NVM
+    script:
+      - cargo test --all --target wasm32-unknown-unknown
+
+notifications:
+  email:
+    on_success: never
