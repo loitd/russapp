@@ -17,9 +17,9 @@ name = "serve"
 crate-type = ["bin"]
 
 # Tell cargo to run a specific file
-[[bin]]
-name = "crud"
-path = "src/crud.rs"
+# [[bin]]
+# name = "crud"
+# path = "src/crud.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 # https://crates.io/crates/oracle
