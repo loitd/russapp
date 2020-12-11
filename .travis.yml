@@ -1,6 +1,5 @@
 language: rust
 rust: stable
-sudo: false
 
 INSTALL_NODE_VIA_NVM: &INSTALL_NODE_VIA_NVM
   |
@@ -68,7 +67,10 @@ matrix:
   #     bash <(curl -s https://codecov.io/bash) &&
   #     echo "Uploaded code coverage"
 
-# ONLY run on successfully tested
+# ONLY run on successfully tested. Tutorial if need: https://sunjay.dev/2016/07/25/rust-code-coverage
+# In short after run `cargo test --no-run` (test without run to generate report) -> The compiled binaries are placed in target/debug
+# To run your tests and collect coverage, run kcov with the following command:
+# kcov --exclude-pattern=/.cargo,/usr/lib --verify target/cov target/debug/<executable name>
 addons:
   apt:
     packages:
@@ -90,7 +92,7 @@ after_success: |
   make install DESTDIR=../../kcov-build &&
   cd ../.. &&
   rm -rf kcov-master &&
-  for file in target/debug/examplerust-*; do [ -x "${file}" ] || continue; mkdir -p "target/cov/$(basename $file)"; ./kcov-build/usr/local/bin/kcov --exclude-pattern=/.cargo,/usr/lib --verify "target/cov/$(basename $file)" "$file"; done &&
+  for file in target/debug/russapp-*; do [ -x "${file}" ] || continue; mkdir -p "target/cov/$(basename $file)"; ./kcov-build/usr/local/bin/kcov --exclude-pattern=/.cargo,/usr/lib --verify "target/cov/$(basename $file)" "$file"; done &&
   bash <(curl -s https://codecov.io/bash) &&
   echo "Uploaded code coverage"
 
