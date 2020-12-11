@@ -1,10 +1,10 @@
-// A serve example to run actix web based on: https://github.com/actix/examples/blob/master/basics/src/main.rs
-// Form processing based on: https://github.com/actix/examples/blob/master/form/src/main.rs
-// To run: cargo run --example serve
-// To build release: cargo build --example serve --release
-// Copy the templates & static folder with the exe bin file for the web to be runnable.
-// Added tera as template & templates dir, logger, static files, 
-// Added form & serde with App state & configure
+//! A serve example to run actix web based on: https://github.com/actix/examples/blob/master/basics/src/main.rs
+//! Form processing based on: https://github.com/actix/examples/blob/master/form/src/main.rs
+//! To run: cargo run --example serve
+//! To build release: cargo build --example serve --release
+//! Copy the templates & static folder with the exe bin file for the web to be runnable.
+//! Added tera as template & templates dir, logger, static files, 
+//! Added form & serde with App state & configure
 use actix_web::{web, App, HttpRequest, HttpServer, Responder, HttpResponse, error, get, guard, middleware, Result};
 use tera::{Tera, Context};
 use actix_files as fs;

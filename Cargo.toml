@@ -16,6 +16,11 @@ crate-type = ["rlib"]
 name = "serve"
 crate-type = ["bin"]
 
+# Tell cargo to run a specific file
+[[bin]]
+name = "crud"
+path = "src/crud.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 # https://crates.io/crates/oracle
 
@@ -27,6 +32,8 @@ env_logger = "*"
 threadpool = "*"
 dotenv = "0.15.0"
 telegram-bot = "0.8.0"
+anyhow = "*"
+chrono = "*"
 # -------------------Databases----------------------
 mysql = "*"
 diesel = { version = "1.4.4", features = ["sqlite","r2d2","chrono"] }
